@@ -1,6 +1,5 @@
 package com.summertree.simpletodo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,13 +32,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         readItems();
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvItems = (ListView)findViewById(R.id.lvItems);
+        lvItems = (ListView) findViewById(R.id.lvItems);
         lvItems.setAdapter(itemsAdapter);
 
-        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 items.remove(position);
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
@@ -88,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         itemsAdapter.add(etNewItem.getText().toString());
         etNewItem.setText("");
         writeItems();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     private void readItems() {
@@ -109,14 +109,5 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    }
-
-
-    public static void hideSoftKeyboard(Activity activity) {
-        View focusedView = activity.getCurrentFocus();
-        if(focusedView != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
-        }
     }
 }
